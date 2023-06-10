@@ -4,23 +4,6 @@
 # but there's a twist: this timer actually repeats the sound 
 # at the end of the timer!
 
-"""
-next it gets messy:
-per this: https://stackoverflow.com/a/32289245,
-the <Enter> event is an event for the mouse entering the widget
-the <Leave> event is an event for the mouse leaving the widget
-and: "For mouse wheel support under Linux, use Button-4 (scroll up) and Button-5
- (scroll down)"
- for some reason, the button-4 and button-5 events only seem to work when bound to
- the whole window
-
-make the hours, minutes, seconds entry objects be global (ew)
-make a global (ew) variable to hold a reference to the active entry
-have enter and leave events for each field.
-on enter, set the active entry to the entry entered
-on leave, set the active entry to None
-"""
-
 import threading
 import time
 import tkinter
@@ -51,6 +34,7 @@ class BlompTimer:
         self.minutes = tkinter.IntVar(value=minutes)
         self.seconds = tkinter.IntVar(value=seconds)
 
+        # these *_cache variables are used to save/restore the time values when pausing
         self.hours_cache = hours
         self.minutes_cache = minutes
         self.seconds_cache = seconds
@@ -59,7 +43,7 @@ class BlompTimer:
 
         self.timer_running = False
 
-        #hours
+        #hours gui elements
         #region
         hframe = tkinter.Frame()
         hframe.grid(row=ENTRY_ROW, column=0)
@@ -77,7 +61,7 @@ class BlompTimer:
         self.hours_entry.grid(row=1, column=0)
         #endregion
 
-        #minutes
+        #minutes gui elements
         #region
         mframe = tkinter.Frame()
         mframe.grid(row=ENTRY_ROW, column=1)
@@ -188,7 +172,8 @@ class BlompTimer:
     #region
     def enter_h(self, event):
         """
-        mouseover event handler for the hours entry
+        mouseover event handler for the hours entry.
+        Sets the active variable to the hours entry.
         """
 
         if( not self.timer_running):
@@ -197,7 +182,8 @@ class BlompTimer:
 
     def enter_m(self, event):
         """
-        mouseover event handler for the minutes entry
+        mouseover event handler for the minutes entry.
+        Sets the active variable to the minutes entry.
         """
 
         if(not self.timer_running):
@@ -206,7 +192,8 @@ class BlompTimer:
 
     def enter_s(self, event):
         """
-        mouseover event handler for the seconds entry
+        mouseover event handler for the seconds entry.
+        Sets the active variable to the seconds entry
         """
 
         if(not self.timer_running):
@@ -249,6 +236,12 @@ class BlompTimer:
         print("cancel") # debug
 
     def handle_pause(self, event):
+        """
+        event handler for the pause button.
+        hides the ending time
+        replaces the pause button with the start button
+        pauses the timer by resetting the timer_running flag
+        """
         # remove pause
         self.pause_btn.grid_remove()
         # hide time end
@@ -261,6 +254,14 @@ class BlompTimer:
         print("pause") # debug
 
     def handle_start(self, event):
+        """
+        event handler for the start button
+        starts the timer by setting the timer_running flag
+        replaces the start button with the resume button
+        calculates how long the timer should run
+        displays the end time
+        launches a thread to run the timer and count down the time
+        """
         # start timer
         self.timer_running = True
         # hide start
@@ -286,6 +287,9 @@ class BlompTimer:
 
     
     def increase_active_entry(self, event):
+        """
+        
+        """
         if(self.active_var is None or self.timer_running):
             return
         
@@ -303,6 +307,10 @@ class BlompTimer:
         print("increase", self.active_var) # debug
 
     def run_gui(self):
+        """
+        executes the main timer loop
+        returns the hours, minutes, seconds left on the timer as a triple
+        """
         self.window.mainloop()
         return (self.hours.get(), self.minutes.get(), self.seconds.get())
     
