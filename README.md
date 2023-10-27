@@ -15,7 +15,8 @@ So, anyway, I set out to reinvent the wheel, because I didn't like the wheels I 
 # TODO
 - bug fix: times caching doesn't work if you typed the values in
 - figure out playing sound loop until user input
-- implement config: it should include cached time so app can remember where 
+- implement config: it should include cached time so app can remember where it was when it closed
+- installation script
 
 # Dependencies
 *coming soooooon(TM)*

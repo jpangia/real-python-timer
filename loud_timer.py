@@ -1,5 +1,3 @@
-# Author: LordBlompus
-# 
 # a class providing tkinter-based simple gui timer
 # but there's a twist: this timer actually repeats the sound 
 # at the end of the timer!
@@ -21,7 +19,7 @@ SECOND_MAX = 60
 BUTTON_ROW = 1
 ENTRY_ROW = 0
 
-class BlompTimer:
+class LoudTimer:
     def __init__(self, hours=0, minutes=0, seconds=0):
         
         # main window

@@ -1,6 +1,6 @@
 #!/bin/python3
 
-import blomp_timer
+import loud_timer
 
 def load_config():
     return (0,0,0)
@@ -13,7 +13,7 @@ def main():
     (h, m, s) = load_config()
 
     # (h, m, s) = runGUI()
-    t = blomp_timer.BlompTimer(h, m, s)
+    t = loud_timer.LoudTimer(h, m, s)
     (h, m, s) = t.run_gui()
     print("oink")
 
