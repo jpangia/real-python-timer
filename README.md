@@ -24,4 +24,4 @@ So, anyway, I set out to reinvent the wheel, because I didn't like the wheels I 
 *coming soooooon(TM)*
 
 # Bonus Features
-- timer functionality is all contained in <code>blomp_timer.py</code>, so you could theoretically include it in other projects
+- timer functionality is all contained in <code>loud_timer.py</code>, so you could theoretically include it in other projects
